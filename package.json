@@ -1,0 +1,12 @@
+{
+  "name": "district-noir-online",
+  "private": true,
+  "workspaces": ["shared", "server", "client"],
+  "scripts": {
+    "dev": "concurrently --names \"SERVER,CLIENT\" --prefix-colors \"cyan,yellow\" \"node_modules/.bin/tsx --tsconfig server/tsconfig.json --watch server/src/index.ts\" \"npm run dev --workspace=client\"",
+    "build": "npm run build --workspace=shared && npm run build --workspace=client && npm run build --workspace=server"
+  },
+  "devDependencies": {
+    "concurrently": "^9.0.0"
+  }
+}
