@@ -3,7 +3,7 @@ import { socket } from '../socket/socket';
 import { SOUTIEN_LABELS, SOUTIEN_VALUES_DISPLAY } from '../game/constants';
 import type { SoutienType } from '@district-noir/shared';
 
-const SOUTIEN_ORDER: SoutienType[] = ['INFORMATEUR', 'PICKPOCKET', 'SBIRE', 'LIEUTENANT', 'CAID'];
+const SOUTIEN_ORDER: SoutienType[] = ['INFORMATEUR', 'PICKPOCKET', 'SBIRE', 'CAID'];
 
 export function GameOver() {
   const { gameState, playerId, winnerId, instantWin, reset } = useGameStore();
@@ -42,7 +42,6 @@ export function GameOver() {
                 <span>Pts</span>
               </div>
               {SOUTIEN_ORDER.map((type) => {
-                const myScore = me?.finalScore?.soutienScores.find((s) => s.type === type);
                 const myCount = me?.collected.filter((c) => c.type === 'SOUTIEN' && c.soutienType === type).length ?? 0;
                 const oppCount = opponent?.collected.filter((c) => c.type === 'SOUTIEN' && c.soutienType === type).length ?? 0;
                 const winner = myCount > oppCount ? 'me' : oppCount > myCount ? 'opp' : 'tie';
@@ -68,7 +67,7 @@ export function GameOver() {
                 <div className="score-name">{p.name} {p.id === playerId ? '(toi)' : ''}</div>
                 {!instantWin && p.finalScore && (
                   <div className="score-breakdown">
-                    <span>Soutien: <strong>{p.finalScore.soutienScores.reduce((s, ss) => s + (ss.winner === i || (p.id === playerId && ss.winner === gameState.players.indexOf(p)) ? ss.value : 0), 0)}pts</strong></span>
+                    <span>Soutien: <strong>{p.finalScore.soutienScores.reduce((s, ss) => s + (ss.winner === i ? ss.value : 0), 0)}pts</strong></span>
                     {p.finalScore.serieBonus > 0 && <span>Séries: <strong>+{p.finalScore.serieBonus}pts</strong></span>}
                     {p.finalScore.alliancePoints > 0 && <span>Alliances: <strong>+{p.finalScore.alliancePoints}pts</strong></span>}
                     {p.finalScore.trahisonPoints < 0 && <span>Trahisons: <strong className="negative">{p.finalScore.trahisonPoints}pts</strong></span>}

@@ -7,7 +7,6 @@ import {
   SOUTIEN_COLORS,
   SOUTIEN_LABELS,
   SOUTIEN_VALUES_DISPLAY,
-  TYPE_COLORS,
 } from './constants';
 
 export interface CardSpriteOptions {

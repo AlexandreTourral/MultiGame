@@ -1,5 +1,5 @@
-import { PublicGameState } from './gameState';
-import { PlayerAction } from './actions';
+import type { PublicGameState } from './gameState';
+import type { PlayerAction } from './actions';
 
 export interface ServerToClientEvents {
   room_created: (data: { roomId: string; playerId: string }) => void;

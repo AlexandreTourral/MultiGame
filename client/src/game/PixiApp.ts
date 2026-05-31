@@ -7,7 +7,6 @@ export class PixiApp {
   private board: Board | null = null;
   private initialized = false;
   private destroyed = false;
-  private container: HTMLDivElement | null = null;
   private boundOnResize: () => void;
 
   constructor() {
@@ -16,7 +15,6 @@ export class PixiApp {
   }
 
   async init(container: HTMLDivElement) {
-    this.container = container;
 
     await this.app.init({
       width: window.innerWidth,
