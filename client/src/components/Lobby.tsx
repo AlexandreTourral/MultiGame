@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { useGameStore } from '../store/gameStore';
 import { createRoom, joinRoom, requestGameState } from '../socket/useSocket';
 import { getSocketServerUrl } from '../socket/socket';
@@ -42,6 +43,7 @@ export function Lobby() {
 
   return (
     <div className="lobby-screen">
+      <Link to="/" className="library-back-link">← Bibliothèque</Link>
       <div className="lobby-hero">
         <h1 className="game-title">DISTRICT<br /><span>NOIR</span></h1>
         <p className="game-subtitle">Le jeu de cartes en ligne</p>

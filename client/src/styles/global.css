@@ -33,6 +33,21 @@ html, body, #root {
   padding: 24px;
   background: radial-gradient(ellipse at center, #0d0d20 0%, #050508 100%);
   gap: 32px;
+  position: relative;
+}
+
+.library-back-link {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  font-size: 14px;
+  color: #8181a8;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.library-back-link:hover {
+  color: #c8a000;
 }
 
 .lobby-hero {

@@ -1,24 +1,12 @@
-import { useGameStore } from './store/gameStore';
-import { useSocketInit } from './socket/useSocket';
-import { Lobby } from './components/Lobby';
-import { GameBoard } from './components/GameBoard';
-import { GameOver } from './components/GameOver';
+import { Routes, Route } from 'react-router-dom';
+import { LandingPage } from './pages/LandingPage';
+import DistrictNoirApp from './games/district-noir/DistrictNoirApp';
 
 export default function App() {
-  useSocketInit();
-
-  const { lobbyPhase } = useGameStore();
-
   return (
-    <div className="app-root">
-      {(lobbyPhase === 'HOME' || lobbyPhase === 'WAITING') && <Lobby />}
-      {lobbyPhase === 'PLAYING' && <GameBoard />}
-      {lobbyPhase === 'GAME_OVER' && (
-        <>
-          <GameBoard />
-          <GameOver />
-        </>
-      )}
-    </div>
+    <Routes>
+      <Route path="/" element={<LandingPage />} />
+      <Route path="/district-noir/*" element={<DistrictNoirApp />} />
+    </Routes>
   );
 }
