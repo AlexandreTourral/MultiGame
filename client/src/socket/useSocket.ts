@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { socket } from './socket';
+import { socket, isSocketServerConfigured } from './socket';
 import { useGameStore } from '../store/gameStore';
 import type { PlayerAction } from '@district-noir/shared';
 
@@ -27,7 +27,21 @@ export function useSocketInit() {
   } = useGameStore();
 
   useEffect(() => {
+    if (!isSocketServerConfigured()) {
+      setError(
+        'Serveur de jeu non configuré. Ajoutez VITE_SERVER_URL dans Vercel (URL du backend Socket.io), puis redéployez.',
+      );
+      return;
+    }
+
     socket.connect();
+
+    socket.on('connect_error', () => {
+      setError(
+        'Impossible de joindre le serveur de jeu. Vérifiez que le backend est en ligne et que VITE_SERVER_URL est correct.',
+      );
+      setTimeout(() => setError(null), 6000);
+    });
 
     socket.on('connect', () => {
       const { roomId, playerId, lobbyPhase } = useGameStore.getState();
@@ -76,6 +90,7 @@ export function useSocketInit() {
 
     return () => {
       socket.off('connect');
+      socket.off('connect_error');
       socket.off('room_created');
       socket.off('room_joined');
       socket.off('game_started');
@@ -90,10 +105,18 @@ export function useSocketInit() {
 }
 
 export function createRoom(playerName: string) {
+  if (!socket.connected) {
+    useGameStore.getState().setError('Non connecté au serveur. Réessayez dans quelques secondes.');
+    return;
+  }
   socket.emit('create_room', { playerName });
 }
 
 export function joinRoom(roomId: string, playerName: string) {
+  if (!socket.connected) {
+    useGameStore.getState().setError('Non connecté au serveur. Réessayez dans quelques secondes.');
+    return;
+  }
   socket.emit('join_room', { roomId, playerName });
 }
 
